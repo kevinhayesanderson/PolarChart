@@ -51,12 +51,8 @@ namespace PolarChart
         /// <returns></returns>
         public double RNormalize(double r)
         {
-            double result = default;
-            if (r < RMin || r > RMax)
-                result =  double.NaN;
             double width = Math.Min(ChartCanvas.Width, ChartCanvas.Height);
-            result = (r - RMin) * width / 2 / (RMax - RMin);
-            return result;
+            return (r - RMin) * width / 2 / (RMax - RMin);
         }
 
         public DoubleCollection SetLinePattern()
