@@ -33,7 +33,7 @@ namespace PolarHeatMapOxyPlot
             model.Axes.Add(new AngleAxis { StartAngle = Math.PI, EndAngle = Math.PI + 360, Minimum = 0, Maximum = 360, MajorStep = 30, MinorStep = 15 });
             model.Axes.Add(new MagnitudeAxis { Minimum = 0, Maximum = 100, MajorStep = 25, MinorStep = 5 });
             model.Axes.Add(new LinearColorAxis { Position = AxisPosition.Right, Palette = OxyPalettes.Rainbow(500), HighColor = OxyColors.Gray, LowColor = OxyColors.Black });
-            model.Series.Add(new PolarHeatMapSeries { Data = matrix, Angle0 = 30, Angle1 = 150, Magnitude0 = 0, Magnitude1 = 80, Interpolate = true });
+            model.Series.Add(new PolarHeatMapSeries { Data = matrix, Angle0 = 0, Angle1 = 360, Magnitude0 = 0, Magnitude1 = 100, Interpolate = true });
 
             return model;
         }
