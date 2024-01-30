@@ -30,8 +30,8 @@ namespace PolarChart
             chartCanvas.Width = size;
             chartCanvas.Height = size;
             chartCanvas.Children.Clear();
-            //AddChart();
-            AddChart1();
+            AddChart();
+            //AddChart1();
         }
 
         private void AddChart()
