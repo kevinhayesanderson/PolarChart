@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PolarGradient", "PolarGradi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PolarHeatMapOxyPlot", "PolarHeatMapOxyPlot\PolarHeatMapOxyPlot.csproj", "{69A2EE6C-B398-45E4-9EE8-22BB68C27E0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plotly_density", "Plotly_density\Plotly_density.csproj", "{49C52040-059B-4250-A6CB-75041EA81BA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plotly_density", "Plotly_density\Plotly_density.csproj", "{49C52040-059B-4250-A6CB-75041EA81BA2}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PlotlyHelper", "PlotlyHelper\PlotlyHelper.fsproj", "{A78ACBA4-4199-4B95-8395-B7D42AA6EFD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{49C52040-059B-4250-A6CB-75041EA81BA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49C52040-059B-4250-A6CB-75041EA81BA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49C52040-059B-4250-A6CB-75041EA81BA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A78ACBA4-4199-4B95-8395-B7D42AA6EFD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A78ACBA4-4199-4B95-8395-B7D42AA6EFD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A78ACBA4-4199-4B95-8395-B7D42AA6EFD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A78ACBA4-4199-4B95-8395-B7D42AA6EFD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

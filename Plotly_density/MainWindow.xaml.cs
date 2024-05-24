@@ -1,10 +1,7 @@
-﻿using Plotly.NET.CSharp;
-using Plotly.NET.ImageExport;
-using Plotly.NET.TraceObjects;
+﻿using Plotly.NET.ImageExport;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using static Plotly.NET.StyleParam;
 
 namespace Plotly_density
 {
@@ -13,8 +10,8 @@ namespace Plotly_density
         public MainWindow()
         {
             InitializeComponent();
-            PointPolar();
-            //XYDensity();
+            //PointPolar();
+            XYDensity();
         }
 
         private (double[], double[]) ConvertData(List<(double X, double Y)> datas)
@@ -42,54 +39,18 @@ namespace Plotly_density
 
         private Task<string> InitializePointPolarChart((double[] theta, double[] r) polarData, int width, int height)
         {
-            Plotly.NET.Defaults.DefaultTemplate = Plotly.NET.ChartTemplates.lightMirrored;
-
-            Plotly.NET.Defaults.DefaultWidth = width;
-
-            Plotly.NET.Defaults.DefaultHeight = height;
-
-            Plotly.NET.Defaults.DefaultDisplayOptions = Plotly.NET.DisplayOptions.init(PlotlyJSReference: Plotly.NET.PlotlyJSReference.Full);
-
-            PuppeteerSharpRendererOptions.launchOptions.Timeout = 0;
-
-            var pointPolar = Chart.PointPolar<double, double, string>(theta: polarData.theta,
-
-                                                                        r: polarData.r,
-
-                                                                        Name: "_title",
-
-                                                                        Marker: Marker.init(Size: 3, Color: Plotly.NET.Color.fromKeyword(Plotly.NET.ColorKeyword.Green)),
-
-                                                                        UseDefaults: false,
-
-                                                                        UseWebGL: true,
-
-                                                                        ShowLegend: true
-                                                                        );
-
-            return pointPolar.ToBase64PNGStringAsync(Width: width, Height: height);
+            return PlotlyHelper
+                .ChartInitializer
+                .PointPolar(polarData.r, polarData.theta, width, height)
+                .ToBase64PNGStringAsync(Width: width, Height: height);
         }
 
-        private async Task<(string, string)> InitializeXYDensityChart((List<double> X, List<double> Y) data, int width, int height)
+        private Task<string> InitializeXYDensityChart((List<double> X, List<double> Y) data, int width, int height)
         {
-            var name = "xy_density";
-            Plotly.NET.Defaults.DefaultWidth = width;
-            Plotly.NET.Defaults.DefaultHeight = height;
-            Plotly.NET.Defaults.DefaultDisplayOptions = Plotly.NET.DisplayOptions.init(PlotlyJSReference: Plotly.NET.PlotlyJSReference.Full);
-            var pointPolar = Chart.PointDensity(x: data.X,
-                                                y: data.Y,
-                                                PointMarkerColor: Plotly.NET.Color.fromKeyword(Plotly.NET.ColorKeyword.White),
-                                                PointMarkerSymbol: MarkerSymbol.Circle,
-                                                PointMarkerSize: 1,
-                                                ColorScale: Colorscale.Greens,
-                                                ColorBar: Plotly.NET.ColorBar.init<double, double>(Title: Plotly.NET.Title.init("Density")),
-                                                ShowContourLabels: true);
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, name);
-            var htmlPath = path + ".html";
-            var imagePath = path;
-            pointPolar.SaveHtml(htmlPath);
-            await pointPolar.SavePNGAsync(imagePath, Width: width, Height: height);
-            return (htmlPath, imagePath + ".png");
+            return PlotlyHelper
+                .ChartInitializer
+                .PointDensity(data.X, data.Y, width, height)
+                .ToBase64PNGStringAsync(Width: width, Height: height);
         }
 
         private void PointPolar()
@@ -100,12 +61,17 @@ namespace Plotly_density
             int width = (int)this.Width;
             int height = (int)this.Height;
             string imageString = Task.Run(() => InitializePointPolarChart(polarData, width, height)).Result;
+            plotImage.Source = CreateBitmapImage(width, imageString);
+        }
+
+        private static BitmapImage CreateBitmapImage(int width, string imageString)
+        {
             BitmapImage myBitmapImage = new BitmapImage();
             myBitmapImage.BeginInit();
             myBitmapImage.StreamSource = new MemoryStream(Convert.FromBase64String(imageString.Replace("data:image/png;base64,", "")));
             myBitmapImage.DecodePixelWidth = width;
             myBitmapImage.EndInit();
-            plotImage.Source = myBitmapImage;
+            return myBitmapImage;
         }
 
         private List<(double, double)> ReadData()
@@ -126,13 +92,8 @@ namespace Plotly_density
             var data = ReadData();
             int width = (int)this.Width;
             int height = (int)this.Height;
-            (string htmlPath, string imagePath) = Task.Run(() => InitializeXYDensityChart((data.Select(x => x.Item1).ToList(), data.Select(x => x.Item2).ToList()), width, height)).Result;
-            BitmapImage myBitmapImage = new BitmapImage();
-            myBitmapImage.BeginInit();
-            myBitmapImage.UriSource = new Uri(imagePath);
-            myBitmapImage.DecodePixelWidth = width;
-            myBitmapImage.EndInit();
-            plotImage.Source = myBitmapImage;
+            string imageString = Task.Run(() => InitializeXYDensityChart((data.Select(x => x.Item1).ToList(), data.Select(x => x.Item2).ToList()), width, height)).Result;
+            plotImage.Source = CreateBitmapImage(width, imageString);
         }
     }
 }

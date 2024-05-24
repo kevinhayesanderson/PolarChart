@@ -2,11 +2,8 @@
 using OxyPlot.Axes;
 using OxyPlot.Series;
 
-
 namespace PolarHeatMapOxyPlot
 {
-
-
     /// <summary>
     /// Implements a polar heat map series.
     /// </summary>

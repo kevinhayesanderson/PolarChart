@@ -12,4 +12,7 @@
     <PackageReference Include="Plotly.NET.CSharp" Version="0.11.1" />
     <PackageReference Include="Plotly.NET.ImageExport" Version="5.0.1" />
   </ItemGroup>
+   <ItemGroup>
+     <ProjectReference Include="..\PlotlyHelper\PlotlyHelper.fsproj" />
+   </ItemGroup>
 </Project>

@@ -15,25 +15,21 @@ namespace GradientApp
             InitializeComponent();
         }
 
-        System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-        Line gradientLine;
-        RadialGradientBrush gradBrush = new RadialGradientBrush();
+        private System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+        private Line gradientLine;
+        private RadialGradientBrush gradBrush = new RadialGradientBrush();
 
-
-
-        void timer_Tick(object sender, EventArgs e)
+        private void timer_Tick(object sender, EventArgs e)
         {
             for (int i = 0; i < gradBrush.GradientStops.Count; ++i)
             {
                 gradBrush.GradientStops[i].Offset = gradBrush.GradientStops[i].Offset - 0.01;
                 if (gradBrush.GradientStops[i].Offset < -1) gradBrush.GradientStops[i].Offset += 4;
             }
-
         }
 
         private void mainGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-
             chartCanvas.Children.Clear();
 
             gradBrush.GradientStops.Add(new GradientStop(Colors.Red, 0));
@@ -50,7 +46,6 @@ namespace GradientApp
             gradientLine = new Line() { X1 = 500, Y1 = 500, X2 = 1000, Y2 = 1000, StrokeThickness = 10, Stroke = gradBrush };
             mainGrid.Children.Add(gradientLine);
 
-
             var lineSeries = new Polyline();
             lineSeries.Stroke = gradBrush;
             lineSeries.StrokeThickness = 2;
@@ -64,7 +59,6 @@ namespace GradientApp
 
             double xc = mainGrid.ActualWidth / 2;
             double yc = mainGrid.ActualHeight / 2;
-
 
             for (int i = 0; i < lineSeries.Points.Count; i++)
             {
@@ -88,17 +82,12 @@ namespace GradientApp
                     UseLayoutRounding = true
                 };
 
-
-
                 circle.SetValue(Canvas.LeftProperty, (mainGrid.ActualWidth / 2) - RNormalize(r));
                 circle.SetValue(Canvas.TopProperty, (mainGrid.ActualHeight / 2) - RNormalize(r));
-
-
 
                 chartCanvas.Children.Add(circle);
             }
             //chartCanvas.Children.Add(lineSeries);
-
 
             //timer.Tick += timer_Tick;
             //timer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 30);
@@ -111,6 +100,11 @@ namespace GradientApp
             var RMin = -7.0;
             double width = Math.Min(mainGrid.ActualWidth, mainGrid.ActualHeight);
             return (r - RMin) * width / 2 / (RMax - RMin);
+        }
+
+        private void chartGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }
