@@ -1,17 +1,17 @@
 ﻿<Window
-    x:Class="PolarHeatMapOxyPlot.MainWindow"
+    x:Class="Plotly_density.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:PolarHeatMapOxyPlot"
+    xmlns:local="clr-namespace:Plotly_density"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:oxy="http://oxyplot.org/wpf"
-    xmlns:lcl="clr-namespace:PolarHeatMapOxyPlot"
+    xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
     Title="MainWindow"
-    Width="Auto"
-    Height="Auto"
+    Width="1000"
+    Height="1000"
     mc:Ignorable="d">
     <Grid>
-        <lcl:polarPlotArea></lcl:polarPlotArea>
+        <wv2:WebView2 Name="plotview" />
+        <Image x:Name="plotImage" />
     </Grid>
 </Window>
