@@ -10,8 +10,10 @@ namespace Plotly_density
         public MainWindow()
         {
             InitializeComponent();
-            //PointPolar();
-            XYDensity();
+            int width = (int)Width;
+            int height = (int)Height;
+            PointPolar(width, height);
+            XYDensity(width, height);
         }
 
         private (double[], double[]) ConvertData(List<(double X, double Y)> datas)
@@ -33,7 +35,6 @@ namespace Plotly_density
                 theta.Add(angle);
                 r.Add(magnitude);
             }
-
             return (theta.ToArray(), r.ToArray());
         }
 
@@ -53,13 +54,10 @@ namespace Plotly_density
                 .ToBase64PNGStringAsync(Width: width, Height: height);
         }
 
-        private void PointPolar()
+        private void PointPolar(int width, int height)
         {
             var data = ReadData();
             var polarData = ConvertData(data);
-
-            int width = (int)this.Width;
-            int height = (int)this.Height;
             string imageString = Task.Run(() => InitializePointPolarChart(polarData, width, height)).Result;
             plotImage.Source = CreateBitmapImage(width, imageString);
         }
@@ -87,11 +85,9 @@ namespace Plotly_density
             return data;
         }
 
-        private void XYDensity()
+        private void XYDensity(int width, int height)
         {
             var data = ReadData();
-            int width = (int)this.Width;
-            int height = (int)this.Height;
             string imageString = Task.Run(() => InitializeXYDensityChart((data.Select(x => x.Item1).ToList(), data.Select(x => x.Item2).ToList()), width, height)).Result;
             plotImage.Source = CreateBitmapImage(width, imageString);
         }
